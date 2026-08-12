@@ -1,6 +1,7 @@
 package eCafe.API.product.entity;
 
 import eCafe.API.category.entity.Category;
+import eCafe.API.common.enums.UnitType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,10 @@ public class Product {
     private String description;
 
     private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unit_type", nullable = false)
+    private UnitType unitType;
 
     private Integer stockQuantity;
 

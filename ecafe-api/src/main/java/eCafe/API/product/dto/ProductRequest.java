@@ -1,5 +1,6 @@
 package eCafe.API.product.dto;
 
+import eCafe.API.common.enums.UnitType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
@@ -37,6 +38,9 @@ public record ProductRequest(
         @Positive(message = "Preço deve ser maior que zero!")
         @Digits(integer = 10, fraction = 2, message = "Preço inválido!")
         BigDecimal price,
+
+        @NotNull(message = "Unidade de venda é obrigatória!")
+        UnitType unitType,
 
         @Schema(
                 description = "Quantidade disponível em estoque.",

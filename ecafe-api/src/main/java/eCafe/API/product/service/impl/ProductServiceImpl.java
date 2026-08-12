@@ -41,6 +41,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(request.name())
                 .description(request.description())
                 .price(request.price())
+                .unitType(request.unitType())
                 .stockQuantity(request.stockQuantity())
                 .active(request.active())
                 .category(category)
@@ -70,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
         product.setName(request.name());
         product.setDescription(request.description());
         product.setPrice(request.price());
+        product.setUnitType(request.unitType());
         product.setStockQuantity(request.stockQuantity());
         product.setActive(request.active());
         product.setCategory(category);
@@ -199,6 +201,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
+                product.getUnitType(),
                 product.getStockQuantity(),
                 product.getImageUrl(),
                 product.getActive()
