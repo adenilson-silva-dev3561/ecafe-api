@@ -46,6 +46,10 @@ public record ProductRequest(
         @PositiveOrZero(message = "Quantidade em estoque não pode ser negativa!")
         Integer stockQuantity,
 
+        @Schema(description = "Imagem referente ao produto", example = "url da imagem")
+        @NotNull(message = "A url da imagem é obrigatoria!")
+        String imageUrl,
+
         @Schema(
                 description = "Indica se o produto está disponível para venda.",
                 example = "true"

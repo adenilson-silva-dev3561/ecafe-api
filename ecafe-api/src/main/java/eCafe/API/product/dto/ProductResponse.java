@@ -10,6 +10,7 @@ public record ProductResponse(
         String description,
         BigDecimal price,
         Integer stockQuantity,
+        String imageUrl,
         Boolean active
 ) {
 }

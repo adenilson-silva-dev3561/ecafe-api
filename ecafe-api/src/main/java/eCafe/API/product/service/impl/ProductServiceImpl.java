@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
                 .stockQuantity(request.stockQuantity())
                 .active(request.active())
                 .category(category)
+                .imageUrl(request.imageUrl())
                 .build();
 
         Product savedProduct = productRepository.save(product);
@@ -198,6 +199,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getDescription(),
                 product.getPrice(),
                 product.getStockQuantity(),
+                product.getImageUrl(),
                 product.getActive()
         );
     }
