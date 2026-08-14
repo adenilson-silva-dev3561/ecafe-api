@@ -52,13 +52,18 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public String createUser(String userName, String email, String password) {
+    public String createUser(String name, String email, String password) {
 
         String accessToken = getAccessToken();
 
+        UserName userName = splitName(name);
+
         KeycloakUserRequest userRequest = new KeycloakUserRequest(
-                userName,
                 email,
+                email,
+                userName.firstName(),
+                userName.lastName(),
+                true,
                 true,
                 List.of(
                         new KeycloakUserRequest.Credential(
@@ -76,11 +81,28 @@ public class KeycloakServiceImpl implements KeycloakService {
         );
 
         if (response.getHeaders().getLocation() == null) {
-            throw new IllegalStateException("Keycloak não retornou o ID do usuário.");
+            throw new IllegalStateException(
+                    "Keycloak não retornou o ID do usuário."
+            );
         }
 
         String location = response.getHeaders().getLocation().toString();
 
         return location.substring(location.lastIndexOf("/") + 1);
     }
+
+    private UserName splitName(String fullName) {
+
+        String[] names = fullName.trim().split("\\s+", 2);
+
+        return new UserName(
+                names[0],
+                names.length > 1 ? names[1] : ""
+        );
+    }
+
+    private record UserName(
+            String firstName,
+            String lastName
+    ) {}
 }

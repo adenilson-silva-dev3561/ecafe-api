@@ -11,4 +11,5 @@ public final class ApiRoutes {
     public static final String CUSTOMER = API_V1 + "/customers";
     public static final String CART = API_V1 + "/carts";
     public static final String ORDER = API_V1 + "/orders";
+    public static final String AUTH = API_V1 + "/auth";
 }

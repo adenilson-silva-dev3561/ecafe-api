@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         String keycloakUserId = keycloakService.createUser(
-                request.email(),
+                request.name(),
                 request.email(),
                 request.password()
         );
