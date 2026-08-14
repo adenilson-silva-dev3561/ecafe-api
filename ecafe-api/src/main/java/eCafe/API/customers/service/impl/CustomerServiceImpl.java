@@ -8,6 +8,7 @@ import eCafe.API.customers.dto.CustomerResponse;
 import eCafe.API.customers.entity.Customer;
 import eCafe.API.customers.repository.CustomerRepository;
 import eCafe.API.customers.service.CustomerService;
+import eCafe.API.customers.service.KeycloakService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final KeycloakService keycloakService;
 
     @Override
     public CustomerResponse create(CustomerRequest request) {
@@ -35,15 +37,28 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException(ExceptionMessages.CUSTOMER_ALREADY_EXISTS + request.cpf());
         }
 
+        String keycloakUserId = keycloakService.createUser(
+                request.email(),
+                request.email(),
+                request.password()
+        );
 
-        Customer customer = Customer.builder().name(request.name()).email(request.email()).cpf(request.cpf()).phone(request.phone()).createdAt(LocalDate.now()).birthDate(request.birth_date()).active(true).build();
+        Customer customer = Customer.builder()
+                .name(request.name())
+                .email(request.email())
+                .cpf(request.cpf())
+                .phone(request.phone())
+                .createdAt(LocalDate.now())
+                .birthDate(request.birth_date())
+                .active(true)
+                .keycloakUserId(keycloakUserId)
+                .build();
 
         Customer customerSaved = customerRepository.save(customer);
 
         log.info(LogMessages.CUSTOMER_CREATE_SUCCESS, customerSaved.getId());
 
         return toDto(customerSaved);
-
     }
 
     public CustomerResponse update(Long id, CustomerRequest request) {

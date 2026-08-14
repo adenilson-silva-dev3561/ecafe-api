@@ -37,4 +37,7 @@ public class Customer {
     @Column(name = "updated_at",nullable = false)
     private LocalDate updateAt;
 
+    @Column(name = "keycloak_user_id", nullable = false, unique = true)
+    private String keycloakUserId;
+
 }

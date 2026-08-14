@@ -29,6 +29,10 @@ public record CustomerRequest(
         @NotNull(message = "Data de nascimento é obrigatório")
         LocalDate birth_date,
 
+        @Schema(description = "Senha do cliente", example = "Senha@123")
+        @NotBlank(message = "Senha é obrigatória")
+        String password,
+
         @Schema(
                 description = "Status do cliente.",
                 example = "true"

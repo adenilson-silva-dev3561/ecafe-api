@@ -9,7 +9,7 @@ spring:
     name: ecafe-api
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ecafe
+    url: jdbc:postgresql://172.18.70.30:5432/ecafe
     username: postgres
     password: 356132
 
@@ -66,3 +66,10 @@ springdoc:
 
   api-docs:
     path: /api-docs
+
+keycloak:
+  server-url: http://172.18.70.30:8081/
+  realm: ecafe
+  admin:
+    client-id: ecafe-api
+    client-secret: i0pvtPKigzgKRTYAXGfkwZoQXT0YUjqq
