@@ -26,12 +26,18 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
-logging:
-  level:
-    eCafe.API: INFO
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/ecafe
 
 server:
   port: 8080
+
+logging:
+  level:
+    eCafe.API: INFO
 
 management:
   endpoints:
@@ -52,11 +58,11 @@ management:
       export:
         enabled: true
 
-  springdoc:
-    swagger-ui:
-      path: /swagger
-      operations-sorter: method
-      tags-sorter: alpha
+springdoc:
+  swagger-ui:
+    path: /swagger
+    operations-sorter: method
+    tags-sorter: alpha
 
-    api-docs:
-      path: /api-docs
+  api-docs:
+    path: /api-docs
