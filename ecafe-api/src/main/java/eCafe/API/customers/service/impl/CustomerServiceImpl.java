@@ -31,12 +31,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         log.info(LogMessages.CUSTOMER_CREATE_START, request.name());
 
-        if (customerRepository.existsByCpf(request.cpf())) {
-
-            log.warn(LogMessages.CUSTOMER_ALREADY_EXISTS, request.cpf());
-            throw new RuntimeException(ExceptionMessages.CUSTOMER_ALREADY_EXISTS + request.cpf());
-        }
-
         String keycloakUserId = keycloakService.createUser(
                 request.name(),
                 request.email(),
@@ -46,10 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = Customer.builder()
                 .name(request.name())
                 .email(request.email())
-                .cpf(request.cpf())
-                .phone(request.phone())
                 .createdAt(LocalDate.now())
-                .birthDate(request.birth_date())
                 .active(true)
                 .keycloakUserId(keycloakUserId)
                 .build();
@@ -70,11 +61,8 @@ public class CustomerServiceImpl implements CustomerService {
         log.info(LogMessages.UPDATING_CUSTOMER, id);
 
         customer.setName(request.name());
-        customer.setCpf(request.cpf());
         customer.setEmail(request.email());
-        customer.setBirthDate(request.birth_date());
         customer.setUpdateAt(LocalDate.now());
-        customer.setActive(request.active());
 
         Customer customerUpdated = customerRepository.save(customer);
 

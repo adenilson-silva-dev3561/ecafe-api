@@ -17,10 +17,12 @@ public class CorsConfig {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "http://localhost:5500",
                                 "http://127.0.0.1:5500",
+                                "http://localhost:8080",
                                 "http://127.0.0.1:5501",
-                                "http://192.168.30.164:5501"
+                                "http://172.18.64.1:5501",
+                                "http://192.168.30.164:5501",
+                                "http://192.168.19.118:5501"
                         )
                         .allowedMethods(
                                 "GET",
