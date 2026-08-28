@@ -3,6 +3,7 @@ package eCafe.API.customers.controller;
 import eCafe.API.common.constants.ApiRoutes;
 import eCafe.API.customers.dto.CustomerRequest;
 import eCafe.API.customers.dto.CustomerResponse;
+import eCafe.API.customers.dto.CustomerUpdateRequest;
 import eCafe.API.customers.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public class CustomerController {
 
     })
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> update(@PathVariable Long id, @Valid @RequestBody CustomerRequest request) {
+    public ResponseEntity<CustomerResponse> update(@PathVariable Long id, @Valid @RequestBody CustomerUpdateRequest request) {
 
         CustomerResponse customerUpdated = customerService.update(id, request);
 
@@ -94,4 +96,12 @@ public class CustomerController {
        customerService.deleteById(id);
        return ResponseEntity.noContent().build();
     }
+    @GetMapping("/me")
+    public ResponseEntity<CustomerResponse>customerMe(Authentication authentication){
+
+        CustomerResponse customer = customerService.findCurrentCustomer(authentication);
+
+        return ResponseEntity.ok(customer);
+    }
+
 }

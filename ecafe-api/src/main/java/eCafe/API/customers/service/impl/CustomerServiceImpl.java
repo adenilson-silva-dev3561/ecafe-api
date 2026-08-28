@@ -5,6 +5,7 @@ import eCafe.API.common.constants.LogMessages;
 import eCafe.API.common.exception.ResourceNotFoundException;
 import eCafe.API.customers.dto.CustomerRequest;
 import eCafe.API.customers.dto.CustomerResponse;
+import eCafe.API.customers.dto.CustomerUpdateRequest;
 import eCafe.API.customers.entity.Customer;
 import eCafe.API.customers.repository.CustomerRepository;
 import eCafe.API.customers.service.CustomerService;
@@ -13,6 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -52,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
         return toDto(customerSaved);
     }
 
-    public CustomerResponse update(Long id, CustomerRequest request) {
+    public CustomerResponse update(Long id, CustomerUpdateRequest request) {
 
         log.info(LogMessages.SEARCHING_CUSTOMER_FOR_UPDATE, id);
 
@@ -63,6 +65,9 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setName(request.name());
         customer.setEmail(request.email());
         customer.setUpdateAt(LocalDate.now());
+        customer.setPhone(request.phone());
+        customer.setBirthDate(request.birth_date());
+        customer.setCpf(request.cpf());
 
         Customer customerUpdated = customerRepository.save(customer);
 
@@ -98,6 +103,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
+    @Override
+    public CustomerResponse findCurrentCustomer(Authentication authentication){
+        String keycloakUserId = authentication.getName();
+
+        Customer customer = customerRepository.findByKeycloakUserId(keycloakUserId).orElseThrow(()-> new ResourceNotFoundException(ExceptionMessages.CUSTOMER_NOT_FOUND));
+
+        return toDto(customer);
+
+    }
     private Customer findByCustomer(Long id) {
 
         return customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionMessages.CUSTOMER_NOT_FOUND + id));

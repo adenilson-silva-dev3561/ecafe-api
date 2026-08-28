@@ -30,7 +30,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/ecafe
+          issuer-uri: http://172.18.70.30:8081/realms/ecafe
 
 server:
   port: 8080
